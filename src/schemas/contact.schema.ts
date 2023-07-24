@@ -12,9 +12,10 @@ const contact = z.object({
 })
 
 const contactRequest = contact.omit({id: true, createdAt: true})
-
+const contactArray = z.array(contact)
 
 export {
     contact,
-    contactRequest
+    contactRequest,
+    contactArray
 }

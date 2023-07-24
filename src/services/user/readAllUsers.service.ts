@@ -1,12 +1,17 @@
-import { TUserArrayResponse } from "../../interfaces/user.interface"
-import { userArrayResponse } from "../../schemas/user.schema"
+import { User } from "../../entities"
+import { TUserArrayResponse, TUserResponse } from "../../interfaces/user.interface"
+import { userArrayResponse, userResponse } from "../../schemas/user.schema"
 import { userRepository } from "../../utils/getRepository"
 
 const readAllUserService = async(): Promise<TUserArrayResponse> => {
 
-    const users = await userRepository.find()
+    const users: User[] = await userRepository.find()
 
-    return userArrayResponse.parse(users)
+    const returnUsers = userArrayResponse.parse(users)
+
+    return returnUsers
+
+   
 }
 
 export {

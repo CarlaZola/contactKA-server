@@ -1,7 +1,7 @@
-import { Client } from "./client.entity";
+import { User } from "./user.entity";
 import { Contact } from "./contact.entity";
 
 export {
-    Client,
+    User,
     Contact
 }

@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const client = z.object({
+const user = z.object({
     id: z.number(),
     full_name: z.string().max(255),
     email: z.string().email().max(120),
@@ -10,12 +10,12 @@ const client = z.object({
     createdAt: z.string()
 })
 
-const clientRequest = client.omit({id: true, createdAt:true})
-const clientResponse = client.omit({password: true})
+const userRequest = user.omit({id: true, createdAt:true})
+const userResponse = user.omit({password: true})
 
 
 export {
-    client,
-    clientRequest,
-    clientResponse
+    user,
+    userRequest,
+    userResponse
 }

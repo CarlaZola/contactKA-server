@@ -8,7 +8,7 @@ const contact = z.object({
     phone: z.string().max(11),
     nickname: z.string().nullish().optional(),
     createdAt: z.string(),
-    clientId: z.number() 
+    userId: z.number() 
 })
 
 const contactRequest = contact.omit({id: true, createdAt: true})

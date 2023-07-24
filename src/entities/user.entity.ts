@@ -3,9 +3,8 @@ import * as bcrypt from "bcryptjs"
 import { Contact } from "./contact.entity";
 
 
-
-@Entity('clients')
-class Client {
+@Entity('users')
+class User {
 
     @PrimaryGeneratedColumn('increment')
     id: number
@@ -28,7 +27,7 @@ class Client {
     @CreateDateColumn({type: 'date'})
     createdAt: string 
 
-    @OneToMany(() => Contact, (contacts) => contacts.client)
+    @OneToMany(() => Contact, (contacts) => contacts.user)
     contacts: Contact[]
 
     @BeforeInsert()
@@ -44,5 +43,5 @@ class Client {
 }
 
 export {
-    Client
+    User
 }

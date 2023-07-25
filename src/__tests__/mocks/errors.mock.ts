@@ -18,5 +18,8 @@ export default {
                 "Invalid email"
                 ]
         }
+    },
+    invalidCredentials: {
+        message: "Invalid credentials"
     }
 }

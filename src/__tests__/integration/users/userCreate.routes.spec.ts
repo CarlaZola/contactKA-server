@@ -38,7 +38,6 @@ describe("/POST --> users", () => {
 
         const {password, ...bodyEqual} = createUserRouteMock.userComplete
 
-        console.log(response.body)
         expect(response.status).toEqual(201)
         expect(response.body).not.toHaveProperty("password")
         expect(response.body).toEqual(expect.objectContaining(bodyEqual))
@@ -78,13 +77,7 @@ describe("/POST --> users", () => {
         .send(createUserRouteMock.userInvalidPhone)
 
         expect(response.status).toEqual(400)
-        expect(response.body).toEqual(expect.objectContaining({
-            "message": {
-                "phone": [
-                    "Must follow the format (xx) xxxxx-xxxx"
-                    ]
-                }
-            }))
+        expect(response.body).toEqual(expect.objectContaining(errors.invalidPhone))
 
     })
 
@@ -94,13 +87,7 @@ describe("/POST --> users", () => {
         .send(createUserRouteMock.userInvalidEmail)
 
         expect(response.status).toEqual(400)
-        expect(response.body).toEqual(expect.objectContaining({
-            "message": {
-                "email": [
-                    "Invalid email"
-                    ]
-                }
-            }))
+        expect(response.body).toEqual(expect.objectContaining(errors.invalidEmail))
     })
 
     it("Error - Email already exists", async () => {

@@ -2,10 +2,21 @@ export default {
     emailExists: {
         message: "Email already exists"
     },
-    invalidPhone: {
-        message: "Must follow the format (xx) xxxxx-xxxx"
+    invalidPhone: {  
+        "message": {
+            "phone": [
+                "Must follow the format (xx) xxxxx-xxxx"
+                ]
+        }    
     },
     nameExists: {
         message: "Name already exists"
+    },
+    invalidEmail: {
+        "message": {
+            "email": [
+                "Invalid email"
+                ]
+        }
     }
 }

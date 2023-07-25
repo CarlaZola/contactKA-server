@@ -21,7 +21,7 @@ class User {
     @Column({type: 'varchar', length: 120})
     password: string
 
-    @Column({type: 'varchar', length: 11})
+    @Column({type: 'varchar', length: 18})
     phone: string
 
     @Column({type: 'varchar', length: 50, nullable: true})

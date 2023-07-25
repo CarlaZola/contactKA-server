@@ -33,7 +33,7 @@ export default {
     userUniqueName: {
         full_name: "Andyara Oss",
         password: '1234',
-        phone: "(47) 99245-4587",
+        phone: "(47) 99245-4557",
         email: "andy@kenzie.com.br",
     },
     userUniqueName2: {

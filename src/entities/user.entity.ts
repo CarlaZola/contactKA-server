@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, BeforeInsert, BeforeUpdate, OneToMany, AfterInsert, AfterLoad, AfterUpdate, DeleteDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, BeforeInsert, BeforeUpdate, OneToMany, AfterInsert, AfterLoad, AfterUpdate, DeleteDateColumn, BeforeRecover, AfterRecover } from "typeorm";
 import * as bcrypt from "bcryptjs"
 import { Contact } from "./contact.entity";
 
@@ -9,7 +9,7 @@ class User {
     @PrimaryGeneratedColumn('increment')
     id: number
 
-    @Column({type: 'varchar', length: 70, unique: true})
+    @Column({type: 'varchar', length: 69, unique: true})
     full_name: string 
 
     @Column({type: 'varchar', length: 120, unique: true})
@@ -44,18 +44,19 @@ class User {
     }
     @BeforeInsert()
     @BeforeUpdate()
+    @BeforeRecover()
     toLowerCaseName() {
         if (this.full_name) {
-          return this.full_name = this.full_name.toLowerCase()
+            this.full_name = this.full_name.toLowerCase()
         }
     }
  
     @AfterInsert()
     @AfterUpdate()
-    @AfterLoad()
+    @AfterRecover()
     toNormalizeName(){
         if(this.full_name){
-            return this.full_name = this.full_name.split(' ').map((text: string) => text[0].toUpperCase() + text.slice(1)).join(' ')
+             this.full_name = this.full_name.split(' ').map((text: string) => text[0].toUpperCase() + text.slice(1)).join(' ')
           }
     }
  

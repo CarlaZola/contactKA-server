@@ -1,4 +1,3 @@
-import request from "supertest"
 import app from "../../../app"
 import { DataSource, Repository } from "typeorm"
 import AppDataSource from "../../../data-source"
@@ -6,7 +5,7 @@ import { User } from "../../../entities"
 import supertest from "supertest"
 import { createUserRouteMock, errors } from "../../mocks"
 
-describe("/POST --> users", () => {
+describe("/POST --> /client", () => {
     const baseURL: string = "/client"
     let connection: DataSource
     let repoUser: Repository<User> 
@@ -38,7 +37,6 @@ describe("/POST --> users", () => {
 
         const {password, ...bodyEqual} = createUserRouteMock.userComplete
 
-        console.log(response.body)
         expect(response.status).toEqual(201)
         expect(response.body).not.toHaveProperty("password")
         expect(response.body).toEqual(expect.objectContaining(bodyEqual))
@@ -78,13 +76,7 @@ describe("/POST --> users", () => {
         .send(createUserRouteMock.userInvalidPhone)
 
         expect(response.status).toEqual(400)
-        expect(response.body).toEqual(expect.objectContaining({
-            "message": {
-                "phone": [
-                    "Must follow the format (xx) xxxxx-xxxx"
-                    ]
-                }
-            }))
+        expect(response.body).toEqual(expect.objectContaining(errors.invalidPhone))
 
     })
 
@@ -94,13 +86,7 @@ describe("/POST --> users", () => {
         .send(createUserRouteMock.userInvalidEmail)
 
         expect(response.status).toEqual(400)
-        expect(response.body).toEqual(expect.objectContaining({
-            "message": {
-                "email": [
-                    "Invalid email"
-                    ]
-                }
-            }))
+        expect(response.body).toEqual(expect.objectContaining(errors.invalidEmail))
     })
 
     it("Error - Email already exists", async () => {

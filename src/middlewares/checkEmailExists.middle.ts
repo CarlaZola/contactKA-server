@@ -9,7 +9,7 @@ const checkEmailExists = async (req: Request, res: Response, next: NextFunction)
 
         const emailUser: boolean = await userRepository.exist({
             where: {
-                email: email.toUpperCase()
+                email: email
             }
         })
 

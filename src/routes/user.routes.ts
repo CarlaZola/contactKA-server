@@ -5,15 +5,19 @@ import { validatedBody } from "../middlewares/validatedBody.middle";
 import { userRequest, userUpdateRequest } from "../schemas/user.schema";
 import { checkNameExists } from "../middlewares/checkNameExists.middle";
 import { checkIdExists } from "../middlewares/checkIdExists.middle";
+import { tokenValid } from "../middlewares/checkTokenValid.middle";
 
 
 const userRoutes: Router = Router()
 
 userRoutes.post('',validatedBody(userRequest) , checkEmailExists, checkNameExists,createUserController)
+
 userRoutes.get('', readAllUsersControllers)
-userRoutes.get('/:id', checkIdExists, readUserController)
-userRoutes.patch("/:id", checkIdExists,validatedBody(userUpdateRequest), checkEmailExists, checkNameExists, updateUserController)
-userRoutes.delete("/:id", checkIdExists, deleteUserController)
+userRoutes.get('/:id', tokenValid, checkIdExists, readUserController)
+
+userRoutes.patch("/:id", tokenValid, checkIdExists,validatedBody(userUpdateRequest), checkEmailExists, checkNameExists, updateUserController)
+
+userRoutes.delete("/:id", tokenValid, checkIdExists, deleteUserController)
 
 
 export default userRoutes

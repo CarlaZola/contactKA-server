@@ -13,7 +13,7 @@ const user = z.object({
 })
 
 const userRequest = user.omit({id: true, createdAt: true, deletedAt: true})
-const userResponse = user.omit({password: true, originalEmail: true})
+const userResponse = user.omit({password: true})
 
 const userReadResponse = userResponse.extend({
     contacts: contactArray

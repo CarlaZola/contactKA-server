@@ -10,7 +10,7 @@ const updateUserService = async (dataUser: TUserUpdateRequest, idUser: string): 
         ...user, 
         ...dataUser
     })
-    console.log(newUser)
+
     await userRepository.save(newUser)
 
     return userResponse.parse(newUser)

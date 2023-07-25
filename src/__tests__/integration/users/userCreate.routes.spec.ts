@@ -5,7 +5,7 @@ import { User } from "../../../entities"
 import supertest from "supertest"
 import { createUserRouteMock, errors } from "../../mocks"
 
-describe("/POST --> users", () => {
+describe("/POST --> /client", () => {
     const baseURL: string = "/client"
     let connection: DataSource
     let repoUser: Repository<User> 

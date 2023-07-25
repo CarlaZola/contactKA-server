@@ -11,9 +11,12 @@ import { tokenValid } from "../middlewares/checkTokenValid.middle";
 const userRoutes: Router = Router()
 
 userRoutes.post('',validatedBody(userRequest) , checkEmailExists, checkNameExists,createUserController)
+
 userRoutes.get('', readAllUsersControllers)
 userRoutes.get('/:id', tokenValid, checkIdExists, readUserController)
+
 userRoutes.patch("/:id", tokenValid, checkIdExists,validatedBody(userUpdateRequest), checkEmailExists, checkNameExists, updateUserController)
+
 userRoutes.delete("/:id", tokenValid, checkIdExists, deleteUserController)
 
 

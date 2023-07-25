@@ -9,14 +9,11 @@ class User {
     @PrimaryGeneratedColumn('increment')
     id: number
 
-    @Column({type: 'varchar', length: 255, unique: true})
+    @Column({type: 'varchar', length: 70, unique: true})
     full_name: string 
 
     @Column({type: 'varchar', length: 120, unique: true})
     email: string
-
-    @Column({ name: 'original_email', type: 'varchar', length: 120, nullable: true}) 
-    originalEmail: string;
 
     @Column({type: 'varchar', length: 120})
     password: string
@@ -52,16 +49,7 @@ class User {
           return this.full_name = this.full_name.toLowerCase()
         }
     }
-    @BeforeInsert()
-    @BeforeUpdate()
-    
-    toUpperCaseEmail(){
-        if(this.email){
-            this.originalEmail = this.email
-            this.email = this.email.toUpperCase().trim()
-        }
-    }
-
+ 
     @AfterInsert()
     @AfterUpdate()
     @AfterLoad()
@@ -70,13 +58,7 @@ class User {
             return this.full_name = this.full_name.split(' ').map((text: string) => text[0].toUpperCase() + text.slice(1)).join(' ')
           }
     }
-    @AfterInsert()
-    @AfterUpdate()
-    @AfterLoad()
-    toNormalizeEmail(){
-        this.email = this.originalEmail
-    }
-     
+ 
 }
 
 export {

@@ -11,7 +11,7 @@ const createLoginService = async(dataLogin: TLoginRequest): Promise<TLoginRespon
     const { email } = dataLogin
     const { password } = dataLogin
 
-    const userExists: User | null = await userRepository.findOneBy({email: email.toUpperCase()})
+    const userExists: User | null = await userRepository.findOneBy({email: email})
 
     if(!userExists) throw new AppError('Invalid credentials', 401)
        

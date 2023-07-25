@@ -4,8 +4,7 @@ import AppDataSource from "../../../data-source"
 import { User } from "../../../entities"
 import supertest from "supertest"
 import { readUserRouteMock, errors, tokenRouteMock } from "../../mocks"
-import { user } from "../../../schemas/user.schema"
-import { array } from "zod"
+
 
 
 describe("GET --> /client", () => {

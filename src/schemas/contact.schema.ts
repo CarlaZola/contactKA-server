@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { user } from "./user.schema"
 
 
 const contact = z.object({
@@ -10,7 +11,10 @@ const contact = z.object({
     createdAt: z.string(),
 })
 
-const contactRequest = contact.omit({id: true, createdAt: true})
+const contactRequest = contact
+.omit({id: true, createdAt: true})
+.extend({userId: z.number()})
+
 const contactArray = z.array(contact)
 const contactUpdate = contactRequest.deepPartial()
 

@@ -5,11 +5,9 @@ import { readAllContactService } from "../../services/contacts/readAllContacts.s
 import { deleteContactService } from "../../services/contacts/deleteContact.service";
 
 const createContactController = async (req: Request, res: Response): Promise<Response> => {
-    const { idUser } = res.locals.token
+    // const { idUser } = res.locals.token
 
-    console.log(idUser)
-
-    const newContact = await createContactService(req.body, idUser)
+    const newContact = await createContactService(req.body)
 
     return res.status(201).json(newContact)
 }   

@@ -4,43 +4,51 @@ import { updateContactService } from "../../services/contacts/updateContact.serv
 import { readAllContactService } from "../../services/contacts/readAllContacts.service";
 import { deleteContactService } from "../../services/contacts/deleteContact.service";
 
-const createContactController = async (req: Request, res: Response): Promise<Response> => {
-    // const { idUser } = res.locals.token
+const createContactController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const newContact = await createContactService(req.body);
 
-    const newContact = await createContactService(req.body)
+  return res.status(201).json(newContact);
+};
 
-    return res.status(201).json(newContact)
-}   
+const updateContactController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { id } = req.params;
 
+  const updatedContat = await updateContactService(req.body, id);
 
-const updateContactController = async (req: Request, res: Response): Promise<Response> =>  {
-    const { id } = req.params
-    
-    const updatedContat = await updateContactService(req.body, id)
+  return res.json(updatedContat);
+};
 
-    return res.json(updatedContat)
-}
+const readAllContactsController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { id } = req.params;
 
-const readAllContactsController = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params
+  const contacts = await readAllContactService(id);
 
-    const contacts = await readAllContactService(id)
+  return res.json(contacts);
+};
 
-    return res.json(contacts)
-}
+const deleteContactController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { id } = req.params;
 
-const deleteContactController =  async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params
+  await deleteContactService(id);
 
-    await deleteContactService(id)
-    
-    return res.status(204).send()
-
-}
+  return res.status(204).send();
+};
 
 export {
-    createContactController,
-    updateContactController,
-    readAllContactsController,
-    deleteContactController
-}
+  createContactController,
+  updateContactController,
+  readAllContactsController,
+  deleteContactController,
+};

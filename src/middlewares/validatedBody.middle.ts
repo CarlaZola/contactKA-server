@@ -1,16 +1,14 @@
-import { NextFunction, Request, Response } from "express"
-import { ZodSchema } from "zod"
+import { NextFunction, Request, Response } from "express";
+import { ZodSchema } from "zod";
 
-const validatedBody = (schema: ZodSchema) => (req: Request, res: Response, next: NextFunction): void => {
+const validatedBody =
+  (schema: ZodSchema) =>
+  (req: Request, res: Response, next: NextFunction): void => {
+    const body = schema.parse(req.body);
 
-    const body = schema.parse(req.body)
-    
-    req.body = body
+    req.body = body;
 
-    return next()
-}
+    return next();
+  };
 
-
-export {
-    validatedBody
-}
+export { validatedBody };

@@ -17,6 +17,5 @@ export {
   deleteUserRouteMock,
   readUserRouteMock,
   createContactRouteMock,
-  updateContactRouteMock
-  
-}
+  updateContactRouteMock,
+};

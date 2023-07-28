@@ -13,7 +13,7 @@ const checkIdContactExists = async(req: Request, res: Response, next: NextFuncti
     })
 
     if(!user){
-        throw new AppError('User not found', 404)
+        throw new AppError('Contact not found', 404)
     }
 
     return next()

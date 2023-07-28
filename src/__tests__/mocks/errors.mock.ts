@@ -32,6 +32,11 @@ export default {
     notFoundUser: {
         message: "User not found"
     },
+
+    notFoundContact: {
+        message: "Contact not found"
+    },
+    
     noToken: {
         message: "Missing bearer token"
     },

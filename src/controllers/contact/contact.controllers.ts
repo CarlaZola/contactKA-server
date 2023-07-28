@@ -22,8 +22,9 @@ const updateContactController = async (req: Request, res: Response): Promise<Res
 }
 
 const readAllContactsController = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params
 
-    const contacts = await readAllContactService()
+    const contacts = await readAllContactService(id)
 
     return res.json(contacts)
 }

@@ -1,53 +1,55 @@
 import app from "../../../app"
 import { DataSource, Repository } from "typeorm"
 import AppDataSource from "../../../data-source"
-import { User } from "../../../entities"
+import { Contact, User } from "../../../entities"
 import supertest from "supertest"
-import { updateUserRouteMock, errors, tokenRouteMock } from "../../mocks"
+import { createUserRouteMock, errors, tokenRouteMock, updateContactRouteMock, updateUserRouteMock } from "../../mocks"
 
-
-describe("PATCH --> /client", () => {
+describe("PATCH --> /contacts", () => {
     let connection: DataSource
-    let baseURL: string = "/client"
-    let repoUser: Repository<User> 
-    let user: User;
-    let userURl: string
-
+    let repoContact: Repository<Contact>
+    let repoUser: Repository<User>
+    let baseURL: string = '/contact'
+    let contactURL: string 
+    let user: User 
+    let contact: Contact
+    
     beforeAll(async() => {
         await AppDataSource.initialize()
         .then((res) => {
-            connection = res
+            connection = res 
+            repoContact = res.getRepository(Contact)
             repoUser = res.getRepository(User)
-        })
-        .catch((err) => {
+            
+        }).catch((err) => {
             console.log("Error during Data Source initialization", err)
         })
     })
 
-    beforeEach(async() => {
-        const users: User[] = await repoUser.find();
-        await repoUser.remove(users);
+    beforeEach(async () => {
+        const contacts: Contact[] = await repoContact.find();
+        await repoContact.remove(contacts);
 
-        user = await repoUser.save(updateUserRouteMock.userTemplate)
+        contact = await repoContact.save(updateContactRouteMock.userTemplate)
+        user = await repoUser.save(createUserRouteMock.userComplete)
 
-        userURl = baseURL + `/${user.id}`
+        contactURL = baseURL + `/${contact.id}`
     })
 
-    afterAll(async () => {
-        await connection.destroy();
-    });
+    afterAll(async() =>{
+        await connection.destroy()
+    })
 
-    it("Success - Updated user -> full body", async() => {
-
+    it("Success - Updated contact -> full body", async() => {
         const response = await supertest(app)
-        .patch(userURl)
+        .patch(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.genToken(user.id)}`
         )
-        .send(updateUserRouteMock.userComplete)
+        .send(updateContactRouteMock.userComplete2)
 
-        const { password, ...bodyEqual } = updateUserRouteMock.userComplete
+        const { ...bodyEqual } = updateContactRouteMock.userComplete2
 
         expect(response.status).toEqual(200)
         expect(response.body).not.toEqual(
@@ -60,9 +62,9 @@ describe("PATCH --> /client", () => {
     
     })
 
-    it("Success - Updated user -> partial body", async() => {
+    it("Success - Updated contact -> partial body", async() => {
         const response = await supertest(app)
-        .patch(userURl)
+        .patch(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.genToken(user.id)}`
@@ -79,67 +81,65 @@ describe("PATCH --> /client", () => {
             ...bodyEqual, 
             id: user.id
         }))
-    
+
     })
 
-
-    it("Error - Update user with invalid ID", async() => {
+    it("Error - Update contact with invalid ID", async() => {
         const response = await supertest(app)
         .patch(baseURL+`/456789`)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.genToken(user.id)}`
         )
-        .send(updateUserRouteMock.userComplete)
+        .send(updateContactRouteMock.userComplete2)
 
         expect(response.status).toEqual(404)
-        expect(response.body).toStrictEqual(expect.objectContaining(errors.notFoundUser))
+        expect(response.body).toStrictEqual(expect.objectContaining(errors.notFoundContact))
     })
 
-    it("Error - Update user without token", async() => {
+    it("Error - Update contact without token", async() => {
         const response = await supertest(app)
-        .patch(userURl)
-        .send(updateUserRouteMock.userComplete)
+        .patch(contactURL)
+        .send(updateContactRouteMock.userComplete2)
 
         expect(response.status).toEqual(401)
         expect(response.body).toStrictEqual(expect.objectContaining(errors.noToken))
     })
 
-    it("Error - Update user cellphone with invalid format -> (xx) xxxxx-xxxx", async() => {
+    it("Error - Update contact cellphone with invalid format -> (xx) xxxxx-xxxx", async() => {
         const response = await supertest(app)
-        .patch(userURl)
+        .patch(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.genToken(user.id)}`
         )
-        .send(updateUserRouteMock.userInvalidPhone)
+        .send(updateContactRouteMock.userInvalidPhone)
 
         expect(response.status).toEqual(400)
         expect(response.body).toStrictEqual(expect.objectContaining(errors.invalidPhone))
     })
 
-
     it("Error - Update user with invalid token", async() => {
         const response = await supertest(app)
-        .patch(userURl)
+        .patch(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.jwtMalformed}`
         )
-        .send(updateUserRouteMock.userComplete)
+        .send(updateContactRouteMock.userComplete2)
 
         expect(response.status).toEqual(401)
         expect(response.body).toStrictEqual(expect.objectContaining(errors.invalidToken))
     })
 
-    it("Error - Update user with email already exists", async() => {
+    it("Error - Update contact with email already exists", async() => {
         const response = await supertest(app)
-        .patch(userURl)
+        .patch(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.genToken(user.id)}`
         )
-        .send(updateUserRouteMock.userUniqueEmail)
+        .send(updateContactRouteMock.userUniqueEmail)
 
         expect(response.status).toEqual(409)
         expect(response.body).toStrictEqual(expect.objectContaining(errors.emailExists))
@@ -147,41 +147,43 @@ describe("PATCH --> /client", () => {
 
     it("Error - Update user with invalid email", async() => {
         const response = await supertest(app)
-        .patch(userURl)
+        .patch(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.genToken(user.id)}`
         )
-        .send(updateUserRouteMock.userInvalidEmail)
+        .send(updateContactRouteMock.userInvalidEmail)
 
         expect(response.status).toEqual(400)
         expect(response.body).toStrictEqual(expect.objectContaining(errors.invalidEmail))
     })
 
-    it("Error - Update user with full_name already exists", async() => {
+    it("Error - Update contact with full_name already exists", async() => {
         const response = await supertest(app)
-        .patch(userURl)
+        .patch(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.genToken(user.id)}`
         )
-        .send(updateUserRouteMock.userUniqueName)
+        .send(updateContactRouteMock.userUniqueName)
 
         expect(response.status).toEqual(409)
         expect(response.body).toStrictEqual(expect.objectContaining(errors.nameExists))
     })
 
-    it("Error - Update user with invalid full_name", async() => {
+    it("Error - Update contact with invalid full_name", async() => {
         const response = await supertest(app)
-        .patch(userURl)
+        .patch(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.genToken(user.id)}`
         )
-        .send(updateUserRouteMock.userInvalidName)
+        .send(updateContactRouteMock.userInvalidName)
 
         expect(response.status).toEqual(400)
         expect(response.body).toStrictEqual(expect.objectContaining(errors.invalidName))
     })
-
 })
+
+
+

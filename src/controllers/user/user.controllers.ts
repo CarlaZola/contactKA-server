@@ -5,50 +5,61 @@ import { readAllUserService } from "../../services/user/readAllUsers.service";
 import { updateUserService } from "../../services/user/updateUser.service";
 import { userRemoveService } from "../../services/user/softRemove.service";
 
-const createUserController = async(req: Request, res: Response): Promise<Response> => {
+const createUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const newClient = await createUserService(req.body);
 
-    const newClient = await createUserService(req.body)
+  return res.status(201).json(newClient);
+};
 
-    return res.status(201).json(newClient)
-}
+const readUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { id } = req.params;
 
+  const user = await readUserService(id);
 
-const readUserController = async(req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params
+  return res.json(user);
+};
 
-    const user = await readUserService(id)
+const readAllUsersControllers = async (
+  _: Request,
+  res: Response
+): Promise<Response> => {
+  const users = await readAllUserService();
 
-    return res.json(user)
-}
+  return res.json(users);
+};
 
+const updateUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { id } = req.params;
 
-const readAllUsersControllers = async (_: Request, res: Response): Promise<Response> => {
+  const user = await updateUserService(req.body, id);
 
-    const users = await readAllUserService()
+  return res.json(user);
+};
 
-    return res.json(users)
-}
+const deleteUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { id } = req.params;
 
-const updateUserController = async(req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params
+  await userRemoveService(id);
 
-    const user = await updateUserService(req.body, id)
-
-    return res.json(user)
-}
-
-const deleteUserController = async(req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params
-
-    await userRemoveService(id)
-
-    return res.status(204).send()
-}
+  return res.status(204).send();
+};
 
 export {
-    createUserController,
-    readUserController,
-    readAllUsersControllers,
-    updateUserController,
-    deleteUserController
-}
+  createUserController,
+  readUserController,
+  readAllUsersControllers,
+  updateUserController,
+  deleteUserController,
+};

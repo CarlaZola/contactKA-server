@@ -1,6 +1,6 @@
-import { sign } from 'jsonwebtoken';
+import { sign } from "jsonwebtoken";
 
-const secretKey: string = '1234';
+const secretKey: string = "1234";
 process.env.SECRET_KEY = secretKey;
 
 export default {
@@ -8,5 +8,5 @@ export default {
     return sign({ id }, secretKey, { subject: id.toString() });
   },
 
-  jwtMalformed: '12345',
+  jwtMalformed: "12345",
 };

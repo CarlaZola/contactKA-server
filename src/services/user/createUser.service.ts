@@ -2,18 +2,16 @@ import { TUserRequest, TUserResponse } from "../../interfaces/user.interface";
 import { userResponse } from "../../schemas/user.schema";
 import { userRepository } from "../../utils/getRepository";
 
-const createUserService = async (dataClient: TUserRequest): Promise<TUserResponse> => {
+const createUserService = async (
+  dataClient: TUserRequest
+): Promise<TUserResponse> => {
+  const user = userRepository.create(dataClient);
 
-    const user = userRepository.create(dataClient)
+  await userRepository.save(user);
 
-    await userRepository.save(user)
+  const userCreated = userResponse.parse(user);
 
-    const userCreated = userResponse.parse(user)
+  return userCreated;
+};
 
-    return userCreated
-}
-
-
-export {
-    createUserService
-}
+export { createUserService };

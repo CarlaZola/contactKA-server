@@ -1,12 +1,13 @@
-import { TContactArray } from "../../interfaces/contact.interface"
+import {  TContactResponse } from "../../interfaces/contact.interface"
+import { contact } from "../../schemas/contact.schema"
 import { contactRepository } from "../../utils/getRepository"
 
 
-const readAllContactService = async(): Promise<TContactArray> => {
+const readAllContactService = async(id: string): Promise<TContactResponse> => {
 
-    const contacts = contactRepository.find()
+    const contacts = await contactRepository.findOneBy({id: +(id)})
 
-    return contacts
+    return contact.parse(contacts)
 }
 
 

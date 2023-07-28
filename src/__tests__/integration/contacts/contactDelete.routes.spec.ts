@@ -1,24 +1,26 @@
 import app from "../../../app"
 import { DataSource, Repository } from "typeorm"
 import AppDataSource from "../../../data-source"
-import { User } from "../../../entities"
+import { Contact, User } from "../../../entities"
 import supertest from "supertest"
-import { readUserRouteMock, errors, tokenRouteMock } from "../../mocks"
+import { createContactRouteMock, deleteUserRouteMock, errors, tokenRouteMock, updateContactRouteMock } from "../../mocks"
 
 
-describe("GET --> /client", () => {
+describe("DELETE --> /contact", () => {
     let connection: DataSource
-    let baseURL: string = "/client"
+    let baseURL: string = "/contact"
     let repoUser: Repository<User> 
+    let repoContact: Repository<Contact> 
     let user: User;
-    let userURl: string
-
+    let contact: Contact
+    let contactURL: string
 
     beforeAll(async() => {
         await AppDataSource.initialize()
         .then((res) => {
             connection = res
             repoUser = res.getRepository(User)
+            repoContact = res.getRepository(Contact)
         })
         .catch((err) => {
             console.log("Error during Data Source initialization", err)
@@ -29,32 +31,29 @@ describe("GET --> /client", () => {
         const users: User[] = await repoUser.find();
         await repoUser.remove(users);
 
-        user = await repoUser.save(readUserRouteMock.userComplete)
+        user = await repoUser.save(deleteUserRouteMock.userComplete)
+        contact = await repoContact.save(createContactRouteMock.userComplete)
 
-        userURl = baseURL + `/${user.id}`
+        contactURL = baseURL + `/${contact.id}`
     })
 
     afterAll(async () => {
         await connection.destroy();
     });
 
-    it("Success - List user by ID", async() => {
+    it("Success - Delete contact", async () => {
         const response = await supertest(app)
-        .get(userURl)
+        .delete(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.genToken(user.id)}`
         )
 
-        const { password, ...bodyEqual } = readUserRouteMock.userComplete
-        expect(response.status).toEqual(200)
-        expect(response.body).toStrictEqual(expect.objectContaining({
-            ...bodyEqual,
-            contacts: expect.any(Array)
-        }))
+        expect(response.status).toEqual(204)
+        expect(response.body).toStrictEqual({})
     })
 
-    it("Error - List user invalid ID", async() => {
+    it("Error - Delete contact invalid ID", async() => {
         const response = await supertest(app)
         .get(baseURL+'/456987')
         .set(
@@ -63,20 +62,20 @@ describe("GET --> /client", () => {
         )
 
         expect(response.status).toEqual(404)
-        expect(response.body).toStrictEqual(expect.objectContaining(errors.notFoundUser))
+        expect(response.body).toStrictEqual(expect.objectContaining(errors.notFoundContact))
     })
 
-    it("Error - List user without token", async() => {
+    it("Error - Delete contact without token", async() => {
         const response =  await supertest(app)
-        .get(userURl)
+        .delete(contactURL)
 
         expect(response.status).toBe(401)
         expect(response.body).toStrictEqual(expect.objectContaining(errors.noToken));
     })
 
-    it("Error - List user invalid token", async() => {
+    it("Error - Delete contact invalid token", async() => {
         const response =  await supertest(app)
-        .get(userURl)
+        .delete(contactURL)
         .set(
             'Authorization',
             `Bearer ${tokenRouteMock.jwtMalformed}`

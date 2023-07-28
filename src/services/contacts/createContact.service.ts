@@ -3,14 +3,15 @@ import { TContactRequest, TContactResponse } from "../../interfaces/contact.inte
 import { contact } from "../../schemas/contact.schema"
 import { contactRepository, userRepository } from "../../utils/getRepository"
 
-const createContactService = async (data: TContactRequest, idUser: string): Promise<TContactResponse> => {
+const createContactService = async (data: TContactRequest): Promise<TContactResponse> => {
+    const { userId, ...rest} = data
 
-    const user = await userRepository.findOneBy({id: +(idUser)})
+    const user = await userRepository.findOneBy({id: +(userId)})
 
     if(!user) throw new AppError('User not found', 404)
 
     const newContact = contactRepository.create({
-        ...data,
+        ...rest,
         user
     })
 

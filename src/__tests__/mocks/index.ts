@@ -5,6 +5,8 @@ import updateUserRouteMock from "./users/updateUser.route.mock";
 import tokenRouteMock from "./login/token.route.mock";
 import deleteUserRouteMock from "./users/deleteUser.route.mock";
 import readUserRouteMock from "./users/readUser.route.mock";
+import createContactRouteMock from "./contacts/createContact.route.mock";
+import updateContactRouteMock from "./contacts/updateContact.route.mock";
 
 export {
   createUserRouteMock,
@@ -14,4 +16,7 @@ export {
   tokenRouteMock,
   deleteUserRouteMock,
   readUserRouteMock,
+  createContactRouteMock,
+  updateContactRouteMock
+  
 }

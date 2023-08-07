@@ -31,4 +31,15 @@ Utilize npm
 
 7. Após criação do banco e conexão fetias, execute o comando **`npm run typeorm migration:run -- -d ./src/data-source.ts`**, para criar as tabelas no seu banco de dados a partir da pasta `migrations`;
 
-8. Em seguida, execute o comando **`npm run dev`** no terminal do do projeto para rodar o servidor.
+8. Em seguida, execute o comando **`npm run dev`** no terminal do projeto para rodar o servidor.
+
+## Visualização 
+
+Com o servidor rodando, clique no link abaixo para visualizar as funcionalidades do ContactKA. 
+
+### [ContactKA](https://contact-ntxpqrr9w-carlazola.vercel.app)
+
+### O link do reposótio com o Frontend, você tem aqui
+### [ContactKA - Frontend](https://github.com/CarlaZola/contactKA) 
+
+_Obs: Caso ao atualizar uma página e obtiver erro de redirecionamento. Desative as extensões do navegador_

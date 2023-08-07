@@ -1,5 +1,5 @@
 
-# ContactKA
+# ContactKA 👥
 
 ContactKA-server é uma api desenvolvida para salvar seus contatos. 
 
@@ -39,7 +39,7 @@ Com o servidor rodando, clique no link abaixo para visualizar as funcionalidades
 
 ### [ContactKA](https://contact-ntxpqrr9w-carlazola.vercel.app)
 
-### O link do reposótio com o Frontend, você tem aqui
+### O link do reposótio com o Frontend, você tem aqui 👇
 ### [ContactKA - Frontend](https://github.com/CarlaZola/contactKA) 
 
 _Obs: Caso ao atualizar uma página e obtiver erro de redirecionamento. Desative as extensões do navegador_

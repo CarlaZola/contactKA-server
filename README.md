@@ -26,7 +26,7 @@ Utilize npm
 
 6. Crie um arquivo **`.env`** substituindo as informações do **`.env.example`**, pelas suas informações de conexão; 
 
-7. Após criação do banco e conexão fetias, execute o comando **`npm run typeorm migration:run -- -d ./src/data-source.ts`**, para criar as tabelas no seu banco de dados a partir da pasta `migrations`;
+7. Após criação do banco e conexão feitas, execute o comando **`npm run typeorm migration:run -- -d ./src/data-source.ts`**, para criar as tabelas no seu banco de dados a partir da pasta `migrations`;
 
 8. Em seguida, execute o comando **`npm run dev`** no terminal do projeto para rodar o servidor.
 

@@ -18,7 +18,7 @@ class Contact {
   @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column({ type: "varchar", length: 69, unique: true })
+  @Column({ type: "varchar", length: 69 })
   full_name: string;
 
   @Column({ type: "varchar", length: 120, unique: true })
@@ -33,7 +33,9 @@ class Contact {
   @CreateDateColumn({ type: "date" })
   createdAt: string;
 
-  @ManyToOne(() => User, (user) => user.contacts)
+  @ManyToOne(() => User, (user) => user.contacts, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 
   @BeforeInsert()

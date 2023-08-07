@@ -20,7 +20,7 @@ const contactRequest = contact
   .omit({ id: true, createdAt: true })
   .extend({ userId: z.number() });
 
-const contactArray = z.array(contact);
+const contactArray = z.array(contact).optional()
 const contactUpdate = contactRequest.deepPartial();
 
 export { contact, contactRequest, contactArray, contactUpdate };

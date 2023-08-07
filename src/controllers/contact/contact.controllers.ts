@@ -3,6 +3,7 @@ import { createContactService } from "../../services/contacts/createContact.serv
 import { updateContactService } from "../../services/contacts/updateContact.service";
 import { readAllContactService } from "../../services/contacts/readAllContacts.service";
 import { deleteContactService } from "../../services/contacts/deleteContact.service";
+import { contactService } from "../../services/contacts/readContact.service";
 
 const createContactController = async (
   req: Request,
@@ -35,6 +36,14 @@ const readAllContactsController = async (
   return res.json(contacts);
 };
 
+const readContact = async (req: Request, res: Response): Promise<Response> => {
+  const { idUser } = res.locals.token;
+
+  const contacts = await contactService(idUser);
+
+  return res.json(contacts);
+};
+
 const deleteContactController = async (
   req: Request,
   res: Response
@@ -51,4 +60,5 @@ export {
   updateContactController,
   readAllContactsController,
   deleteContactController,
+  readContact,
 };

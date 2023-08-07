@@ -2,6 +2,7 @@
 # ContactKA 👥
 
 ContactKA-server é uma api desenvolvida para salvar seus contatos. 
+_Obs: Caso ao atualizar uma página ou ao tentar fazer o registro de novas informações e obtiver erro. Desative as extensões do navegador_
 
 ## Principais tecnologias utilizadas: 
 
@@ -41,4 +42,4 @@ Com o servidor rodando, clique no link abaixo para visualizar as funcionalidades
 ### O link do reposótio com o Frontend, você tem aqui 👇
 ### [ContactKA - Frontend](https://github.com/CarlaZola/contactKA) 
 
-_Obs: Caso ao atualizar uma página e obtiver erro de redirecionamento. Desative as extensões do navegador_
+

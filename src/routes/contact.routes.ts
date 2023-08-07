@@ -3,6 +3,7 @@ import {
   createContactController,
   deleteContactController,
   readAllContactsController,
+  readContact,
   updateContactController,
 } from "../controllers/contact/contact.controllers";
 import { validatedBody } from "../middlewares/validatedBody.middle";
@@ -28,6 +29,9 @@ contactRoutes.get(
   checkIdContactExists,
   readAllContactsController
 );
+
+contactRoutes.get("", tokenValid, readContact);
+
 contactRoutes.patch(
   "/:id",
   tokenValid,

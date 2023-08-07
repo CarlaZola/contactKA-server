@@ -9,7 +9,7 @@ import { contactRoutes } from "./routes/contact.routes";
 
 const app = express();
 app.use(json());
-app.use(cors()); // por enquanto todos podem acessar.
+app.use(cors({})); 
 
 app.use("/client", clientRoutes);
 app.use("/login", loginRoutes);

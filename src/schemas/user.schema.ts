@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { array, z } from "zod";
 import { contactArray } from "./contact.schema";
 
 const user = z.object({
